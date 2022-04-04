@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "antd/dist/antd.css";
+import { Layout } from "antd";
+import { Routes, Route, useLocation } from "react-router-dom";
+
+// import Components
+import Sidebar from "./components/Sidebar";
+import Headers from "./components/Header";
+
+// Import Page
+
+import Organization from "./page/Organization";
+import Members from "./page/Members";
+import Comments from "./page/Comments";
+
+const { Content, Footer } = Layout;
 
 function App() {
+  const location = useLocation();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Layout>
+        <Headers />
+        {location.pathname === "/" ? (
+          <Organization />
+        ) : (
+          <Layout>
+            <Sidebar />
+            <Layout>
+              <Content style={{ padding: "0 10px" }}>
+                <Routes>
+                  <Route path="/comments" element={<Comments />} />
+                  <Route path="/members" element={<Members />} />
+                </Routes>
+              </Content>
+              <Footer style={{ textAlign: "center" }}>
+                Clear View Assessment @ 2022
+              </Footer>
+            </Layout>
+          </Layout>
+        )}
+      </Layout>
     </div>
   );
 }
